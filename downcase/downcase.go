@@ -1,4 +1,4 @@
-package main
+package downcase
 
 func ToLower(str string) string {
 	var res []byte = []byte(str)
