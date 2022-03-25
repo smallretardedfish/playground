@@ -1,6 +1,9 @@
-package main
+package brackets
 
-import "testing"
+import (
+	"Playground/brackets"
+	"testing"
+)
 
 type TestIndex struct {
 	input    string
@@ -31,7 +34,7 @@ var testTable = []TestIndex{
 }
 
 func TestIsBalanced(t *testing.T) {
-	rangeTestTable(t, IsBalanced, testTable)
+	rangeTestTable(t, main.IsBalanced, testTable)
 }
 func rangeTestTable(t *testing.T, f func(string) bool, testTable []TestIndex) {
 	for _, testCase := range testTable {
@@ -48,7 +51,7 @@ func BenchmarkIsBalanced(b *testing.B) {
 	for _, tt := range testTable {
 		b.StartTimer()
 		for i := 0; i < b.N; i++ {
-			IsBalanced(tt.input)
+			main.IsBalanced(tt.input)
 		}
 		b.StopTimer()
 	}

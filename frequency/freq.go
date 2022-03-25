@@ -72,9 +72,7 @@ func main() {
 		log.Println(err)
 		return
 	}
-	//buffer := make([]byte, 1024)
-	//n, err := f.Read(buffer)
-	//text := append(text, buffer[:n]...)
+
 	var numOfWorkers = []int{1, 2, 3, 4, 5, 6, 7, 8, 16, 32, 100}
 	estimateTime := func(f func(text string, n int), text string, n int) time.Duration {
 		start := time.Now()

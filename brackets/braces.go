@@ -24,6 +24,8 @@ func IsBalanced(str string) bool {
 			expected = "["
 		case "}":
 			expected = "{"
+		default:
+			continue
 		}
 		if stack.Pop() != expected {
 			return false
