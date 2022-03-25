@@ -2,7 +2,10 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"os"
 	"sync"
+	"time"
 )
 
 type SafeMap struct {
@@ -27,15 +30,23 @@ func (m *SafeMap) Insert(char byte) {
 }
 
 func Frequency(text chan byte, dict *SafeMap) {
+
+	//for {
+	//	char, more := <-text
+	//	if !more {
+	//		return
+	//	}
+	//	dict.Insert(char)
+	//}
 	for item := range text {
 		//fmt.Println(item)
 		dict.Insert(item)
 	}
+
 }
 
-func main() {
-	count := 1
-	text := "AAAABBCCC!!!"
+func CountFrequency(text string, numOfWorkers int) map[byte]int {
+	count := numOfWorkers
 	textCh := make(chan byte, len(text))
 	dict := NewSafeMap()
 	var wg sync.WaitGroup
@@ -52,5 +63,30 @@ func main() {
 	}
 	close(textCh)
 	wg.Wait()
-	fmt.Println(dict.freq)
+	return dict.freq
+}
+
+func main() {
+	data, err := os.ReadFile("frequency/text.txt")
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	//buffer := make([]byte, 1024)
+	//n, err := f.Read(buffer)
+	//text := append(text, buffer[:n]...)
+	var numOfWorkers = []int{1, 2, 3, 4, 5, 6, 7, 8, 16, 32, 100}
+	estimateTime := func(f func(text string, n int), text string, n int) time.Duration {
+		start := time.Now()
+		f(text, n)
+		res := time.Since(start)
+		return res
+	}
+	text := string(data)
+	for _, num := range numOfWorkers {
+		elapsed := estimateTime(func(text string, num int) {
+			CountFrequency(text, num)
+		}, text, num)
+		fmt.Printf("it took %v for %d workers to proccess this text.\n", elapsed, num)
+	}
 }
