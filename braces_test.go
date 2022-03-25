@@ -42,6 +42,7 @@ func rangeTestTable(t *testing.T, f func(string) bool, testTable []TestIndex) {
 		}
 	}
 }
+
 func BenchmarkIsBalanced(b *testing.B) {
 	b.StopTimer()
 	for _, tt := range testTable {
