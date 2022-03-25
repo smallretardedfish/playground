@@ -19,15 +19,14 @@ func NewSafeMap() *SafeMap {
 func (m *SafeMap) Insert(char byte) {
 	m.lock.Lock()
 	if _, ok := m.freq[char]; !ok {
-		m.freq[char] = 1
+		m.freq[char] = 0
 		//fmt.Println(char)
 	}
 	m.freq[char]++
 	m.lock.Unlock()
 }
 
-func Frequency(text <-chan byte, dict *SafeMap) {
-	fmt.Println(len(text))
+func Frequency(text chan byte, dict *SafeMap) {
 	for item := range text {
 		//fmt.Println(item)
 		dict.Insert(item)
@@ -52,5 +51,6 @@ func main() {
 		//fmt.Println(rune(text[i]))
 	}
 	close(textCh)
+	wg.Wait()
 	fmt.Println(dict.freq)
 }
