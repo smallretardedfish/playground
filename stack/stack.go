@@ -18,7 +18,7 @@ func (s *Stack[T]) Push(val T) {
 func (s *Stack[T]) Pop() T {
 	var res T
 	stack := s.S
-	if len((stack)) > 0 {
+	if len([]T(stack)) > 0 {
 		res = stack[len([]T(stack))-1] // element to be popped
 		stack = stack[:len([]T(stack))-1]
 		s.S = stack

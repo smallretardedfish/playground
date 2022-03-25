@@ -1,7 +1,6 @@
-package brackets
+package main
 
 import (
-	"Playground/brackets"
 	"testing"
 )
 
@@ -34,7 +33,7 @@ var testTable = []TestIndex{
 }
 
 func TestIsBalanced(t *testing.T) {
-	rangeTestTable(t, main.IsBalanced, testTable)
+	rangeTestTable(t, IsBalanced, testTable)
 }
 func rangeTestTable(t *testing.T, f func(string) bool, testTable []TestIndex) {
 	for _, testCase := range testTable {
@@ -51,7 +50,7 @@ func BenchmarkIsBalanced(b *testing.B) {
 	for _, tt := range testTable {
 		b.StartTimer()
 		for i := 0; i < b.N; i++ {
-			main.IsBalanced(tt.input)
+			IsBalanced(tt.input)
 		}
 		b.StopTimer()
 	}
