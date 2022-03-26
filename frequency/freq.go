@@ -30,19 +30,9 @@ func (m *SafeMap) Insert(char byte) {
 }
 
 func Frequency(text chan byte, dict *SafeMap) {
-
-	//for {
-	//	char, more := <-text
-	//	if !more {
-	//		return
-	//	}
-	//	dict.Insert(char)
-	//}
 	for item := range text {
-		//fmt.Println(item)
 		dict.Insert(item)
 	}
-
 }
 
 func CountFrequency(text string, numOfWorkers int) map[byte]int {
@@ -59,7 +49,6 @@ func CountFrequency(text string, numOfWorkers int) map[byte]int {
 	}
 	for i := range []byte(text) {
 		textCh <- text[i]
-		//fmt.Println(rune(text[i]))
 	}
 	close(textCh)
 	wg.Wait()
@@ -67,13 +56,19 @@ func CountFrequency(text string, numOfWorkers int) map[byte]int {
 }
 
 func main() {
-	data, err := os.ReadFile("frequency/text.txt")
+	var path string
+	_, err := fmt.Scanln(&path)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	data, err := os.ReadFile(path)
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
-	var numOfWorkers = []int{1, 2, 3, 4, 5, 6, 7, 8, 16, 32, 100}
+	var numOfWorkers = []int{1, 2, 3, 4, 5, 6, 7, 8, 16, 32, 64, 100}
 	estimateTime := func(f func(text string, n int), text string, n int) time.Duration {
 		start := time.Now()
 		f(text, n)
